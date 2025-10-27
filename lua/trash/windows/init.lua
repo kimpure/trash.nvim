@@ -8,6 +8,7 @@ local utils = require("trash.windows.utils")
 --- @class Windows
 --- @field trash_path string
 --- @field sid string
+--- @field op ffi.cdata*
 local windows = {}
 
 --- Move the file to the trash
@@ -17,17 +18,22 @@ function windows.trash_file(path)
 	    return vim.notify("Not found target file, path: " .. path, vim.log.levels.WARN)
 	end
 
-    --- @diagnostic disable
-	local op = ffi.new("SHFILEOPSTRUCTW")
+    if not windows.op then
+        --- @diagnostic disable
+        local op = ffi.new("SHFILEOPSTRUCTW")
 
-	op.wFunc = 3
-	op.pFrom = utils.to_wide(path)
-	op.pTo = nil
-	op.fFlags = 0x40 + 0x10
-	op.hwnd = nil
-	op.hNameMappings = nil
-	op.lpszProgressTitle = nil
-	fAnyOperationsAborted = 0
+        op.wFunc = 3
+        op.pTo = nil
+        op.fFlags = 0x40 + 0x10
+        op.hwnd = nil
+        op.hNameMappings = nil
+        op.lpszProgressTitle = nil
+    
+        windows.op = op
+    end
+
+    windows.op.pFrom = utils.to_wide(path)
+	-- fAnyOperationsAborted = 0
 
 	if shell32.SHFileOperationW(op) ~= 0 then
 		vim.notify("Faild to move the file: " .. path, vim.log.levels.WARN)
