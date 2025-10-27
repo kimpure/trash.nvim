@@ -35,7 +35,7 @@ function windows.trash_file(path)
     windows.op.pFrom = utils.to_wide(path)
 	-- fAnyOperationsAborted = 0
 
-	if shell32.SHFileOperationW(op) ~= 0 then
+	if shell32.SHFileOperationW(windows.op) ~= 0 then
 		vim.notify("Faild to move the file: " .. path, vim.log.levels.WARN)
 	end
 end
