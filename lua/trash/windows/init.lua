@@ -76,7 +76,4 @@ function windows.setup()
 	return windows
 end
 
-windows.setup()
-windows.trash_file("C:\\Users\\gimle\\Downloads\\dev\\transparent.nvim")
-
 return windows
