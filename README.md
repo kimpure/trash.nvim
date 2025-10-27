@@ -2,5 +2,4 @@
 Move files to trash in Nvim
 
 ## preview
-[!
-](https://youtu.be/licdXPslvXY)
+https://youtu.be/licdXPslvXY
