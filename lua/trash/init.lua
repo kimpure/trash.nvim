@@ -2,14 +2,17 @@
 --- @field path string path to the trash
 local trash = {}
 
---- @type Windows
-local windows = require("trash.windows")
 
 local fn = vim.fn
-local uv = vim.uv or vim.loop
 
 local is_windows = fn.has("win32") == 1 or fn.has("win64") == 1
 local is_mac = fn.has("macunix") == 1
+
+--- @type Windows
+local windows
+if is_windows then
+    windows = require("trash.windows")
+end
 
 --- Move the file to the trash
 --- @param path string target file path
